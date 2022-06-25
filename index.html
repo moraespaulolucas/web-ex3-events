@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ex3</title>
+		<!-- link dos ícones -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+			integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<!-- css -->
+		<style>
+			i {
+				font-size: 50px;
+				cursor: pointer;
+			}
+
+			img {
+				height: 150px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<!-- chama ícone e adiciona o evento "onclick" -->
+			<i onclick="zoomIn()" class="fa-solid fa-magnifying-glass-plus"></i>
+			<!-- espço entre os ícones -->
+			&nbsp;
+			<!-- chama ícone e adiciona o evento "onclick" -->
+			<i onclick="zoomOut()" class="fa-solid fa-magnifying-glass-minus"></i>
+		</div>
+		<br />
+		<!-- chama imagens -->
+		<img src="./bolso.jpg" alt="" srcset="" />
+		<img src="./bolso.jpg" alt="" srcset="" />
+		<img src="./bolso.jpg" alt="" srcset="" />
+		<img src="./bolso.jpg" alt="" srcset="" />
+		<!-- javascript -->
+		<script>
+			// valor a ser acrescentado
+			const plusHeight = 150
+			// limites de tamanho
+			const heightLimit = [150, 450]
+
+			// pega height computado pelo CSS
+			const getHeight = (image) =>
+				// corta o final "px" da string com slice() e converte para Number()
+				Number(getComputedStyle(image).height.slice(0, -2))
+
+			// pega imagens
+			const getImages = () => document.querySelectorAll("img")
+
+			// zoom nas imagens de forma dinâmica
+			const zoom = (signal) => {
+				// mapea imagens com forEach()
+				getImages().forEach((image) => {
+					// soma ou subtrai height atual da imagem com valor a ser acrescentado
+					const newHeight = eval(`${getHeight(image)} ${signal} ${plusHeight}`)
+					// define novo height da imagem
+					image.style.height = `${newHeight}px`
+				})
+			}
+
+			// aumenta o tamanho da imagem
+			const zoomIn = () => {
+				// verifica tamanho máximo
+				if (getHeight(getImages()[0]) < heightLimit[1]) {
+					// passa sinal de "+" para a função zoom
+					zoom("+")
+				}
+			}
+
+			// diminui o tamanho da imagem
+			const zoomOut = () => {
+				// verifica tamanho mínimo
+				if (getHeight(getImages()[0]) > heightLimit[0]) {
+					// passa sinal de "-" para a função zoom
+					zoom("-")
+				}
+			}
+		</script>
+	</body>
+</html>
